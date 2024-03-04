@@ -1,0 +1,49 @@
+import pandas as pd
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
+from sklearn.metrics import confusion_matrix
+import seaborn as sns
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import f1_score
+from sklearn.metrics import roc_auc_score
+from sklearn.metrics import precision_score
+from sklearn.ensemble import Random Forest Classifier
+data = pd.read_csv(&quot;/content/drive/MyDrive/excledata/instagram dataset.csv&quot;)
+data.shape
+plt.scatter(data[&quot;name==username&quot;],data[&quot;fake&quot;])
+plt.show
+y_data = data[[&quot;fake&quot;]]
+x_data = data.drop(columns={&#39;fake&#39;})
+y_data.head()
+X_train , X_test , Y_train , Y_test = train_test_split(x_data, y_data, test_size= 0.2 , random_state
+=1)
+logistic_model = LogisticRegression()
+logistic_model.fit(X_train, Y_train)
+predicted = logistic_model.predict(X_test)
+predicted
+predicted_df = pd.DataFrame(data=predicted)
+predicted_df
+fc = confusion_matrix(Y_test, predicted_df)
+sns.heatmap(fc, annot = True)
+accuracy = ((fc[0,0] + fc[1,1]) /(fc[0,0]+fc[0,1]+fc[1,0]+fc[1,1]))*100
+print(round(accuracy,2))
+error = 100 - accuracy
+print(round(error,2))
+score = logistic_model.score(X_test, Y_test)
+score*100
+score1 = accuracy_score(Y_test, predicted_df)
+score1
+print(&#39;Precision %.3f&#39;% precision_score(Y_test, predicted_df))
+print(&#39;Recall_score.%3f&#39;% roc_auc_score(Y_test, predicted_df))
+print(&#39;F1_score.%3f&#39;% f1_score(Y_test, predicted_df))
+ #random forest
+clf = RandomForestClassifier()
+clf.fit(X_train, Y_train)
+predicted =clf.predict(X_test)
+predicted_df = pd.DataFrame(data=predicted)
+predicted_df
+fc = confusion_matrix(Y_test, predicted_df)
+sns.heatmap(fc, annot = True)
+accuracy = ((fc[0,0] + fc[1,1]) /(fc[0,0]+fc[0,1]+fc[1,0]+fc[1,1]))*100
+print(round(accuracy,2))
